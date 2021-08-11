@@ -9,9 +9,8 @@ import {changeRouteTitle} from "../../store/actions/uiAction";
 const Phones = (props) => {
     const {phones,getPhones,changeRouteTitle} = props
     React.useEffect( () => {
-
         changeRouteTitle('Phones')
-    },[])
+    },[changeRouteTitle])
     React.useEffect(()=>{
         getPhones()
     },[getPhones])
