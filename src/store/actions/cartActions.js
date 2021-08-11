@@ -4,11 +4,12 @@ export const addToCart = (phone) => {
     return (dispatch, getState) => {
         const ordersReducer = getState().ordersReducer
         const pendingOrderId = ordersReducer.pendingOrder.id
+        const pendingOrderItems = ordersReducer.pendingOrder.items
         const user = currentUser()
 
         if (pendingOrderId) {
             firestore.collection('users').doc(user.uid).collection('orders').doc(pendingOrderId).update({
-                items: arrayUnion(phone)
+                items:[...pendingOrderItems,phone]
             }).then(() => {
                 dispatch({
                     type: 'ADD_ITEM_TO_CART',
