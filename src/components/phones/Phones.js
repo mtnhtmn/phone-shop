@@ -8,7 +8,7 @@ const Phones = (props) => {
     const {phones} = props
     React.useEffect(()=>{
         props.getPhones()
-    },[])
+    },[props])
     return (
         <div>
             {phones.map((phone) => {

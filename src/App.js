@@ -19,7 +19,7 @@ const App = (props) => {
                 })
             }
         })
-    }, [])
+    }, [props])
     return (
         <>
             <CssBaseline/>
