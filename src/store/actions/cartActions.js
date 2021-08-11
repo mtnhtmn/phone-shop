@@ -25,7 +25,7 @@ export const addToCart = (phone) => {
                 status:'pending'
             }
 
-            pendingOrderDoc.set(pendingOrder,{}).then(() => {})
+            pendingOrderDoc.set(pendingOrder).then(() => {})
 
             dispatch({type:'SET_PENDING_ORDER',payload:{
 
