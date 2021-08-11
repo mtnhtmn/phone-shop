@@ -39,4 +39,10 @@ export const onAuthStateChanged = (cb)=>{
         }
     })
 }
+export const currentUser = ()=>{
+
+    return firebase.auth().currentUser
+
+}
+export const arrayUnion = firebase.firestore.FieldValue.arrayUnion
 

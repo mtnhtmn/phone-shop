@@ -22,8 +22,8 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const ButtonAppBar = (props) => {
-    const {user} = props
+const Appbar = (props) => {
+    const {user, title} = props
     const handleClickSignOut = () => {
         props.doLogout()
     }
@@ -37,7 +37,7 @@ const ButtonAppBar = (props) => {
                         <MenuIcon/>
                     </IconButton>
                     <Typography variant="h6" className={classes.title}>
-                        News
+                        {title}
                     </Typography>
                     <Button color={'inherit'} >
                         {user.firstName} {user.lastName}
@@ -58,9 +58,10 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
     return {
-        user: state.authReducer.user
+        user: state.authReducer.user,
+        title: state.uiReducer.title,
     }
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(ButtonAppBar)
+export default connect(mapStateToProps, mapDispatchToProps)(Appbar)

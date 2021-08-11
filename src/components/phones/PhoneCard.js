@@ -26,7 +26,6 @@ const useStyles = makeStyles({
 
 const PhoneCard = (props) => {
     const classes = useStyles();
-    console.log(props)
     return (
         <Card className={classes.root}>
             <CardContent>
@@ -55,6 +54,5 @@ const mapDispatchToProps = (dispatch) => {
         addToCart: (id) => dispatch(addToCart(id))
     }
 }
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(PhoneCard);

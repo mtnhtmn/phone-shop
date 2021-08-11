@@ -2,24 +2,28 @@ import React from 'react';
 import {connect} from "react-redux";
 import {CssBaseline} from "@material-ui/core";
 import {initFirebase, onAuthStateChanged} from "./services/firebaseService";
-import {setLoggedInUser} from "./store/actions/authActions";
+import {getLoggedInUserData} from "./store/actions/authActions";
 import MainRouter from "./router/MainRouter";
 
 initFirebase()
 
 const App = (props) => {
+    const {getLoggedInUserData} = props;
 
     const [loading, setLoading] = React.useState(true)
 
     React.useEffect(() => {
         onAuthStateChanged((user) => {
             if (user && user.emailVerified) {
-                props.setLoggedInUser(user.uid).then(()=>{
+                getLoggedInUserData(user.uid).then(()=>{
                     setLoading(false)
                 })
             }
+            else{
+                setLoading(false)
+            }
         })
-    }, [props])
+    }, [getLoggedInUserData])
     return (
         <>
             <CssBaseline/>
@@ -33,6 +37,6 @@ const mapStateToProps = (state) => {
     }
 
 }
-export default connect(mapStateToProps, {setLoggedInUser})(App);
+export default connect(mapStateToProps, {getLoggedInUserData})(App);
 
 

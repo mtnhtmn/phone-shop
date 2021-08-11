@@ -3,14 +3,21 @@ import {Container, Grid} from "@material-ui/core";
 import PhoneCard from "../phones/PhoneCard";
 import {connect} from "react-redux";
 import {getPhones} from "../../store/actions/phonesActions";
+import Appbar from "../ui/Appbar";
+import {changeRouteTitle} from "../../store/actions/uiAction";
 
 const Phones = (props) => {
-    const {phones} = props
+    const {phones,getPhones,changeRouteTitle} = props
+    React.useEffect( () => {
+
+        changeRouteTitle('Phones')
+    },[])
     React.useEffect(()=>{
-        props.getPhones()
-    },[props])
+        getPhones()
+    },[getPhones])
     return (
         <div>
+            <Appbar/>
             {phones.map((phone) => {
                 return (
                     <Container key={phone.id}>
@@ -26,9 +33,11 @@ const Phones = (props) => {
     );
 };
 
+
+
 const mapStateToProps = (state) => {
     return {
         phones:state.phonesReducer.phones
     }
 }
-export default connect(mapStateToProps,{getPhones})(Phones);
+export default connect(mapStateToProps,{getPhones,changeRouteTitle})(Phones);

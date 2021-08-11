@@ -5,6 +5,7 @@ import {
     firestore,
     signOut,
 } from "../../services/firebaseService";
+import {getPendingOrder} from "./ordersActions";
 
 
 export const doLogin = (user) => {
@@ -61,12 +62,13 @@ export const doLogout = () => {
     }
 }
 
-export const setLoggedInUser = (userUid) => {
+export const getLoggedInUserData = (userUid) => {
     return (dispatch) => {
         return new Promise((resolve, reject)=>{
             firestore.collection('users').doc(userUid).get().then((doc)=>{
                 const user = doc.data()
                 dispatch({type: 'SET_LOGGED_IN_USER', payload: {user}})
+                dispatch(getPendingOrder(doc.id))
                 resolve()
             })
         })

@@ -1,16 +1,16 @@
 import React from 'react';
 import {BrowserRouter} from "react-router-dom";
 import {Redirect, Route, Switch} from "react-router";
-import Dashboard from "../components/dashboard/Dashboard";
+import Phones from "../components/phones/Phones";
 
 const PrivateRouter = () => {
     return (
         <BrowserRouter>
             <Switch>
-                <Route path={'/dashboard'}>
-                    <Dashboard/>
+                <Route exact path='/'>
+                    <Phones/>
                 </Route>
-                <Redirect to={'/dashboard'}/>
+                <Redirect to='/'/>
             </Switch>
         </BrowserRouter>
     );
