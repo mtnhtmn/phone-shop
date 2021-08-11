@@ -2,6 +2,7 @@ import {currentUser, firestore, arrayUnion} from "../../services/firebaseService
 
 export const addToCart = (phone) => {
     return (dispatch, getState) => {
+        delete phone.id
         const ordersReducer = getState().ordersReducer
         const pendingOrderId = ordersReducer.pendingOrder.id
         const pendingOrderItems = ordersReducer.pendingOrder.items
