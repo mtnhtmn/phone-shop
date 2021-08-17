@@ -1,4 +1,4 @@
-import {currentUser, firestore, arrayUnion} from "../../services/firebaseService";
+import {currentUser, firestore} from "../../services/firebaseService";
 
 export const addToCart = (phone) => {
     return (dispatch, getState) => {

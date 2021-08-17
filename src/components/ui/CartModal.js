@@ -6,8 +6,19 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import CartButton from './CartButton';
+import {connect} from "react-redux";
+import CartItems from './CartItems'
 
-export default function AlertDialog() {
+const CartModal= (props) => {
+    const {pendingOrder} = props
+    console.log(pendingOrder.items)
+    const cartItems = pendingOrder.items.map(item => {
+        return (
+            <div>
+                <CartItems item={item}/>
+            </div>
+        )
+    })
     const [open, setOpen] = React.useState(false);
 
     const handleClickOpen = () => {
@@ -30,7 +41,7 @@ export default function AlertDialog() {
                 <DialogTitle id="alert-dialog-title">{"Your Cart"}</DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                       No items in cart
+                        {cartItems}
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
@@ -42,3 +53,11 @@ export default function AlertDialog() {
         </div>
     );
 }
+
+const mapStateToProps = (state) => {
+    return {
+        pendingOrder : state.ordersReducer.pendingOrder
+    }
+}
+
+export default connect(mapStateToProps, null)(CartModal)
