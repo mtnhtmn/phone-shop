@@ -8,13 +8,12 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import CartButton from './CartButton';
 import {connect} from "react-redux";
 import CartItem from './CartItem'
-import Typography from "@material-ui/core/Typography";
 
-const CartModal= (props) => {
+const CartModal = (props) => {
     const {pendingOrder} = props
     const cartItems = pendingOrder.items.map(item => {
         return (
-            <div>
+            <div key={item.id}>
                 <CartItem item={item}/>
             </div>
         )
@@ -40,11 +39,9 @@ const CartModal= (props) => {
             >
                 <DialogTitle id="alert-dialog-title">{"Your Cart"}</DialogTitle>
                 <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
-                        {pendingOrder ? cartItems : <Typography>
-                            Please add items to your cart
-                        </Typography>}
-                    </DialogContentText>
+                    {pendingOrder.items.length ? cartItems : <DialogContentText id="alert-dialog-description">
+                        Please add items to your cart
+                    </DialogContentText>}
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose} color="primary" autoFocus>
@@ -58,7 +55,7 @@ const CartModal= (props) => {
 
 const mapStateToProps = (state) => {
     return {
-        pendingOrder : state.ordersReducer.pendingOrder
+        pendingOrder: state.ordersReducer.pendingOrder
     }
 }
 

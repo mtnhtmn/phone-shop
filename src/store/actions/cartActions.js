@@ -1,37 +1,14 @@
 import {currentUser, firestore} from "../../services/firebaseService";
+import {addItemToPendingOrder, createNewPendingOrder} from "./ordersActions";
 
 export const addToCart = (phone) => {
     return (dispatch, getState) => {
-        delete phone.id
         const ordersReducer = getState().ordersReducer
-        const cartReducer = getState().cartReducer
         const pendingOrderId = ordersReducer.pendingOrder.id
-        const cartItems = cartReducer.cartItems
-        const pendingOrderItems = ordersReducer.pendingOrder.items
-        const user = currentUser()
-
         if (pendingOrderId) {
-            firestore.collection('users').doc(user.uid).collection('orders').doc(pendingOrderId).update({
-                items:[...cartItems,...pendingOrderItems,phone]
-            }).then(() => {
-                dispatch({
-                    type: 'ADD_ITEM_TO_CART',
-                    payload: {phone},
-                })
-            })
+          dispatch(addItemToPendingOrder(phone))
         } else {
-            const pendingOrder = {
-                items: [phone],
-                status:'pending'
-            }
-            const pendingOrderDoc = firestore.collection('users').doc(user.uid).collection('orders').doc()
-            pendingOrderDoc.set(pendingOrder).then(() => {})
-            dispatch({type:'SET_PENDING_ORDER',payload:{
-                    pendingOrder:{
-                        ...pendingOrder,
-                        id:pendingOrderDoc.id
-                    }
-                }})
+           dispatch(createNewPendingOrder(phone))
         }
     }
 }
@@ -45,9 +22,7 @@ export const removeItemFromCart = (phone) => {
         const pendingOrderItems = ordersReducer.pendingOrder.items
         const user = currentUser()
 
-        firestore.collection('users').doc(user.uid).collection('orders').doc(pendingOrderId).delete({
-            items: [...cartItems, ...pendingOrderItems, phone]
-        })
+        firestore.collection('users').doc(user.uid).collection('orders').doc(pendingOrderId).delete()
             .then(() => {
                 dispatch({
                     type: 'REMOVE_ITEM_FROM_CART',

@@ -4,11 +4,10 @@ import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
 import {TextField} from "@material-ui/core";
 import {addToCart, removeItemFromCart} from "../../store/actions/cartActions";
 import {connect} from 'react-redux';
-import ItemDetails from "./ItemDetails";
+import CartItemDetails from "./CartItemDetails";
 
 const useStyles = makeStyles({
     root: {
@@ -27,22 +26,20 @@ const useStyles = makeStyles({
     },
 });
 
-const OutlinedCard = (props) => {
-    const displayItems = props.item
-    console.log(displayItems)
+const CartItem = (props) => {
+    console.log(props.item)
     const classes = useStyles();
     return (
         <Card className={classes.root} variant="outlined">
             <CardContent>
-                {displayItems ? <ItemDetails phone={props.item}/> : <Typography>
-                    No items in cart
-                </Typography>}
+                 <CartItemDetails phone={props.item}/>
             </CardContent>
             <CardActions>
                 <TextField
                     id="filled-number"
                     label="Quantity"
                     type="number"
+                    defaultValue={props.item.quantity}
                     InputProps={{
                         inputProps: {
                             min: 1,
@@ -64,4 +61,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(null,mapDispatchToProps)(OutlinedCard)
+export default connect(null,mapDispatchToProps)(CartItem)

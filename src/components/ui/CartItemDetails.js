@@ -1,7 +1,7 @@
 import React from 'react';
 import Typography from "@material-ui/core/Typography";
 
-const CartDetails = ({phone}) => {
+const CartItemDetails = ({phone}) => {
     return (
         <div>
             <Typography variant="h5" component="h2">
@@ -15,4 +15,4 @@ const CartDetails = ({phone}) => {
     );
 };
 
-export default CartDetails;
+export default CartItemDetails;
