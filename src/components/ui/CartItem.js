@@ -6,8 +6,9 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import {TextField} from "@material-ui/core";
-import {removeItemFromCart} from "../../store/actions/cartActions";
+import {addToCart, removeItemFromCart} from "../../store/actions/cartActions";
 import {connect} from 'react-redux';
+import ItemDetails from "./ItemDetails";
 
 const useStyles = makeStyles({
     root: {
@@ -27,29 +28,29 @@ const useStyles = makeStyles({
 });
 
 const OutlinedCard = (props) => {
+    const displayItems = props.item
+    console.log(displayItems)
     const classes = useStyles();
     return (
         <Card className={classes.root} variant="outlined">
             <CardContent>
-                <Typography variant="h5" component="h2">
-                    Name: {props.item.name}
-                </Typography>
-                <Typography variant="body2" component="p">
-                    Price: {props.item.price}
-                    <br />
-                </Typography>
+                {displayItems ? <ItemDetails phone={props.item}/> : <Typography>
+                    No items in cart
+                </Typography>}
             </CardContent>
             <CardActions>
                 <TextField
                     id="filled-number"
                     label="Quantity"
                     type="number"
-                    InputLabelProps={{
-                        shrink: true,
+                    InputProps={{
+                        inputProps: {
+                            min: 1,
+                        }
                     }}
                     variant="filled"
                 />
-                <Button size="small">Add</Button>
+                <Button onClick={() => props.addToCart(props.item)} size="small">Add</Button>
                 <Button onClick={() => props.removeItemFromCart(props.item)} size="small">Remove From Cart</Button>
             </CardActions>
         </Card>
@@ -58,6 +59,7 @@ const OutlinedCard = (props) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
+        addToCart: (id) => dispatch(addToCart(id)),
         removeItemFromCart: (id) => dispatch(removeItemFromCart(id))
     }
 }
