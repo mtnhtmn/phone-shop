@@ -15,8 +15,8 @@ const StyledBadge = withStyles((theme) => ({
 }))(Badge);
 
 const CartButton = (props) => {
-    const {cartItems,pendingOrder} = props
-    const numberOfItems = cartItems.length + pendingOrder.items.length
+    const {pendingOrder} = props
+    const numberOfItems = pendingOrder.items.length
     return (
         <IconButton onClick={props.open} aria-label="cart">
             <StyledBadge badgeContent={numberOfItems} color="secondary">
@@ -28,7 +28,6 @@ const CartButton = (props) => {
 
 const mapStateToProps = (state) => {
     return {
-        cartItems: state.cartReducer.cartItems,
         pendingOrder : state.ordersReducer.pendingOrder
     }
 }
