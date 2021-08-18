@@ -16,10 +16,7 @@ export const addToCart = (phone) => {
 export const removeItemFromCart = (phone) => {
     return (dispatch, getState) => {
         const ordersReducer = getState().ordersReducer
-        const cartReducer = getState().cartReducer
         const pendingOrderId = ordersReducer.pendingOrder.id
-        const cartItems = cartReducer.cartItems
-        const pendingOrderItems = ordersReducer.pendingOrder.items
         const user = currentUser()
 
         firestore.collection('users').doc(user.uid).collection('orders').doc(pendingOrderId).delete()
