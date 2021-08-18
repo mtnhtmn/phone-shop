@@ -6,6 +6,8 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import {TextField} from "@material-ui/core";
+import {removeItemFromCart} from "../../store/actions/cartActions";
+import {connect} from 'react-redux';
 
 const useStyles = makeStyles({
     root: {
@@ -24,16 +26,16 @@ const useStyles = makeStyles({
     },
 });
 
-const OutlinedCard = ({item}) => {
+const OutlinedCard = (props) => {
     const classes = useStyles();
     return (
         <Card className={classes.root} variant="outlined">
             <CardContent>
                 <Typography variant="h5" component="h2">
-                    Name: {item.name}
+                    Name: {props.item.name}
                 </Typography>
                 <Typography variant="body2" component="p">
-                    Price: {item.price}
+                    Price: {props.item.price}
                     <br />
                 </Typography>
             </CardContent>
@@ -48,9 +50,16 @@ const OutlinedCard = ({item}) => {
                     variant="filled"
                 />
                 <Button size="small">Add</Button>
+                <Button onClick={() => props.removeItemFromCart(props.item)} size="small">Remove From Cart</Button>
             </CardActions>
         </Card>
     );
 }
 
-export default OutlinedCard
+const mapDispatchToProps = (dispatch) => {
+    return {
+        removeItemFromCart: (id) => dispatch(removeItemFromCart(id))
+    }
+}
+
+export default connect(null,mapDispatchToProps)(OutlinedCard)

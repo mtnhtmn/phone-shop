@@ -7,7 +7,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import CartButton from './CartButton';
 import {connect} from "react-redux";
-import CartItems from './CartItems'
+import CartItem from './CartItem'
 
 const CartModal= (props) => {
     const {pendingOrder} = props
@@ -15,7 +15,7 @@ const CartModal= (props) => {
     const cartItems = pendingOrder.items.map(item => {
         return (
             <div>
-                <CartItems item={item}/>
+                <CartItem item={item}/>
             </div>
         )
     })
