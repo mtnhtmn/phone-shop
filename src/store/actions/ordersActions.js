@@ -1,4 +1,5 @@
 import {currentUser, firestore} from "../../services/firebaseService";
+import moment from "moment";
 
 export const getPendingOrder = (userId) => {
     return (dispatch) => {
@@ -25,6 +26,7 @@ export const createNewPendingOrder = (phone) => {
         const newPendingOrder = {
             items: [phone],
             status: 'pending',
+            dateCreated: moment().format('MMMM Do YYYY, h:mm:ss a'),
         }
         const newPendingOrderDoc = firestore.collection('users').doc(user.uid).collection('orders').doc()
 
@@ -45,8 +47,6 @@ export const createNewPendingOrder = (phone) => {
 
 export const addItemToPendingOrder = (phone) => {
     return (dispatch, getState) => {
-
-
         const pendingOrder = getState().ordersReducer.pendingOrder
         const orderItems = pendingOrder.items
         const orderId = pendingOrder.id
@@ -58,7 +58,7 @@ export const addItemToPendingOrder = (phone) => {
                 items:orderItems
             }).then(()=> {
                 dispatch({
-                    type: 'UPDATE_ITEMS', payload: {orderItems}
+                    type: 'UPDATE_EXISTING_ITEMS', payload: {orderItems}
                 })
 
             })
@@ -68,11 +68,38 @@ export const addItemToPendingOrder = (phone) => {
             firestore.collection('users').doc(user.uid).collection('orders').doc(orderId).update({
                 items: [...orderItems, phone]
             }).then(() => {
-                dispatch({type: 'ADD_ITEM_TO_PENDING_ORDER', payload: {phone}})
+                dispatch({type: 'ADD_NEW_ITEM_TO_PENDING_ORDER', payload: {phone}})
             })
 
         }
 
     }
 }
+
+export const removeItemFromOrder = (phone) => {
+    return (dispatch, getState) => {
+        const pendingOrder = getState().ordersReducer.pendingOrder
+        const orderId = pendingOrder.id
+        const orderItems = pendingOrder.items
+        const user = currentUser()
+        const isExistedIndex = orderItems.findIndex(item => item.id === phone.id)
+        if (isExistedIndex >= 1) {
+            orderItems[isExistedIndex].quantity--
+            firestore.collection('users').doc(user.uid).collection('orders').doc(orderId).update({
+                items:orderItems
+            })
+                .then(() => {
+                    dispatch({
+                        type: 'REMOVE_ITEM_QUANTITY_FROM_CART',
+                        payload: {orderItems}
+                    })
+                })
+        } else {
+            firestore.collection('users').doc(user.uid).collection('orders').doc(orderId).update({
+
+            })
+        }
+    }
+}
+
 

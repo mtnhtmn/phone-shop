@@ -5,9 +5,10 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import {TextField} from "@material-ui/core";
-import {addToCart, removeItemFromCart} from "../../store/actions/cartActions";
+import {addToCart} from "../../store/actions/cartActions";
 import {connect} from 'react-redux';
 import CartItemDetails from "./CartItemDetails";
+import {removeItemFromOrder} from "../../store/actions/ordersActions";
 
 const useStyles = makeStyles({
     root: {
@@ -48,7 +49,7 @@ const CartItem = (props) => {
                     variant="filled"
                 />
                 <Button onClick={() => props.addToCart(props.item)} size="small">Add</Button>
-                <Button onClick={() => props.removeItemFromCart(props.item)} size="small">Remove From Cart</Button>
+                <Button onClick={() => props.removeItemFromOrder(props.item)} size="small">Remove From Cart</Button>
             </CardActions>
         </Card>
     );
@@ -57,7 +58,7 @@ const CartItem = (props) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         addToCart: (id) => dispatch(addToCart(id)),
-        removeItemFromCart: (id) => dispatch(removeItemFromCart(id))
+        removeItemFromOrder: (id) => dispatch(removeItemFromOrder(id))
     }
 }
 
