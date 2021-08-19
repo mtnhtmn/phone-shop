@@ -28,7 +28,6 @@ const useStyles = makeStyles({
 });
 
 const CartItem = (props) => {
-    console.log(props.item)
     const classes = useStyles();
     return (
         <Card className={classes.root} variant="outlined">

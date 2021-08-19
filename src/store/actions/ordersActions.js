@@ -27,6 +27,7 @@ export const createNewPendingOrder = (phone) => {
             items: [phone],
             status: 'pending',
             dateCreated: moment().format('MMMM Do YYYY, h:mm:ss a'),
+            totalPrice: phone.price
         }
         const newPendingOrderDoc = firestore.collection('users').doc(user.uid).collection('orders').doc()
 
@@ -48,29 +49,36 @@ export const createNewPendingOrder = (phone) => {
 export const addItemToPendingOrder = (phone) => {
     return (dispatch, getState) => {
         const pendingOrder = getState().ordersReducer.pendingOrder
+        console.log(pendingOrder)
+        let orderTotalPrice = pendingOrder.totalPrice
         const orderItems = pendingOrder.items
         const orderId = pendingOrder.id
         const user = currentUser()
         const isExistedIndex = orderItems.findIndex(item => item.id === phone.id)
         if (isExistedIndex >= 0) {
             orderItems[isExistedIndex].quantity++
+            orderTotalPrice =  phone.price * phone.quantity
             firestore.collection('users').doc(user.uid).collection('orders').doc(orderId).update({
-                items:orderItems
+                items:orderItems,
+                totalPrice: orderTotalPrice,
             }).then(()=> {
                 dispatch({
                     type: 'UPDATE_EXISTING_ITEMS', payload: {orderItems}
                 })
-
             })
 
         } else {
             phone.quantity = 1
+            orderItems.totalPrice = orderItems.totalPrice + phone.price
             firestore.collection('users').doc(user.uid).collection('orders').doc(orderId).update({
                 items: [...orderItems, phone]
             }).then(() => {
                 dispatch({type: 'ADD_NEW_ITEM_TO_PENDING_ORDER', payload: {phone}})
             })
 
+        }
+        return {
+            orderTotalPrice
         }
 
     }
@@ -83,7 +91,7 @@ export const removeItemFromOrder = (phone) => {
         const orderItems = pendingOrder.items
         const user = currentUser()
         const isExistedIndex = orderItems.findIndex(item => item.id === phone.id)
-        if (isExistedIndex >= 1) {
+        if (isExistedIndex >= 0) {
             orderItems[isExistedIndex].quantity--
             firestore.collection('users').doc(user.uid).collection('orders').doc(orderId).update({
                 items:orderItems

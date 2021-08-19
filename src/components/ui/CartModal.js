@@ -8,6 +8,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import CartButton from './CartButton';
 import {connect} from "react-redux";
 import CartItem from './CartItem'
+import {Typography} from "@material-ui/core";
 
 const CartModal = (props) => {
     const {pendingOrder} = props
@@ -42,6 +43,9 @@ const CartModal = (props) => {
                     {pendingOrder.items.length ? cartItems : <DialogContentText id="alert-dialog-description">
                         Please add items to your cart
                     </DialogContentText>}
+                    <Typography variant={"h4"}>
+                        Total Price: {pendingOrder.totalPrice}$
+                    </Typography>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose} color="primary" autoFocus>

@@ -1,4 +1,4 @@
-import {currentUser, firestore} from "../../services/firebaseService";
+
 import {addItemToPendingOrder, createNewPendingOrder} from "./ordersActions";
 
 export const addToCart = (phone) => {

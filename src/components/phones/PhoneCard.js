@@ -33,8 +33,9 @@ const PhoneCard = (props) => {
                     {props.phone.name}
                 </Typography>
                 <Typography className={classes.pos} color="textSecondary">
-                    price: {props.phone.price}
+                    price: {props.phone.price}$
                 </Typography>
+                <img src={props.phone.image} alt={props.phone.name} height={'200'} width={'180'}/>
             </CardContent>
             <CardActions>
                 <Button onClick={() => props.addToCart(props.phone)} size="small">Add to cart</Button>
