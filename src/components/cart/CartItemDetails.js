@@ -10,8 +10,10 @@ const CartItemDetails = ({phone}) => {
             <Typography variant="body2" component="p">
                 Price: {phone.price}$
                 <br />
-                <img src={phone.image} alt={phone.name} height={'100'} width={'100'}/>
             </Typography>
+            <div>
+                <img  src={phone.image} alt={phone.name} height={100} width={100}/>
+            </div>
         </div>
     );
 };

@@ -18,7 +18,6 @@ export const getPendingOrder = (userId) => {
     }
 }
 
-
 export const createNewPendingOrder = (phone) => {
     phone.quantity = 1
     return (dispatch) => {
@@ -27,7 +26,6 @@ export const createNewPendingOrder = (phone) => {
             items: [phone],
             status: 'pending',
             dateCreated: moment().format('MMMM Do YYYY, h:mm:ss a'),
-            totalPrice: phone.price
         }
         const newPendingOrderDoc = firestore.collection('users').doc(user.uid).collection('orders').doc()
 
@@ -45,7 +43,6 @@ export const createNewPendingOrder = (phone) => {
     }
 }
 
-
 export const addItemToPendingOrder = (phone) => {
     return (dispatch, getState) => {
         const pendingOrder = getState().ordersReducer.pendingOrder
@@ -57,10 +54,8 @@ export const addItemToPendingOrder = (phone) => {
         const isExistedIndex = orderItems.findIndex(item => item.id === phone.id)
         if (isExistedIndex >= 0) {
             orderItems[isExistedIndex].quantity++
-            orderTotalPrice =  phone.price * phone.quantity
             firestore.collection('users').doc(user.uid).collection('orders').doc(orderId).update({
                 items:orderItems,
-                totalPrice: orderTotalPrice,
             }).then(()=> {
                 dispatch({
                     type: 'UPDATE_EXISTING_ITEMS', payload: {orderItems}
@@ -98,7 +93,7 @@ export const removeItemFromOrder = (phone) => {
             })
                 .then(() => {
                     dispatch({
-                        type: 'REMOVE_ITEM_QUANTITY_FROM_CART',
+                        type: 'UPDATE_EXISTING_ITEMS',
                         payload: {orderItems}
                     })
                 })

@@ -8,7 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import {doLogout} from "../../store/actions/authActions";
 import {connect} from "react-redux";
-import CartModal from './CartModal'
+import CartModal from '../cart/CartModal'
 
 const useStyles = makeStyles((theme) => ({
     root: {

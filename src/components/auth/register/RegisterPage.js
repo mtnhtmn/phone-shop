@@ -1,22 +1,26 @@
 import React from 'react';
-import {Container, Grid} from "@material-ui/core";
 import RegisterForm from "./RegisterForm";
+import {makeStyles} from "@material-ui/core/styles";
+
+
+const useStyles = makeStyles(() => {
+    return {
+        root: {
+            height: '100%',
+            alignItems: 'center',
+            justifyContent: 'center',
+            display: 'flex'
+        }
+    }
+})
 
 
 const LoginPage = () => {
+    const classes = useStyles()
     return (
-        <Container>
-            <Grid container
-                  spacing={0}
-                  direction={"column"}
-                  alignItems={'center'}
-                  justifyContent={'center'}
-                  style={{minHeight: '100vh'}}>
-                <Grid item xs={3}>
-                    <RegisterForm/>
-                </Grid>
-            </Grid>
-        </Container>
+        <div className={classes.root}>
+            <RegisterForm/>
+        </div>
     );
 };
 
